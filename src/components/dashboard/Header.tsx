@@ -16,8 +16,7 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar: () => voi
     const isMobile = useMediaQuery('(max-width:900px)');
 
     useEffect(() => {
-        const _contract = contractAddress ? contractAddress : process.env.NEXT_PUBLIC_ERC20_TOKEN_ADDRESS || ""
-       setContract(_contract) 
+       setContract(contractAddress) 
     },[contractAddress])
 
     return (
@@ -40,34 +39,34 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar: () => voi
                 }
                 {
                     isConnected && walletAddress?.address && !isMobile &&
-                    <>
+                    <Box sx={{width:'85%', maxWidth:"800px",display:'flex', gap:1, alignItems:'center'}}>
                         <Tooltip title={walletAddress.address}>
                         
-                        <Box >
-                            <Box 
-                                sx={{border:"3px solid #ffffff", borderRadius:"10px", mb:0.5, p:1, display:"flex", gap: 2}}
-                            >
-                                <Box sx={{display: "flex", gap:0.5}}>
-                                    <WalletIcon />
-                                    <Typography>{ truncateAddress(walletAddress.address)}</Typography>
+                            <Box >
+                                <Box 
+                                    sx={{border:"3px solid #ffffff", borderRadius:"10px", mb:0.5, p:1, display:"flex", gap: 2}}
+                                >
+                                    <Box sx={{display: "flex", gap:0.5}}>
+                                        <WalletIcon />
+                                        <Typography>{ truncateAddress(walletAddress.address)}</Typography>
+                                    </Box>
+                                    
+                                    <Chip 
+                                        size='small' 
+                                        sx={{bgcolor: "#a1afffff", p:"2px"}}
+                                        label={
+                                            <Typography 
+                                                variant='caption' 
+                                                color='#1b3cfbfd' 
+                                                fontSize="10.5px"
+                                                fontWeight="bolder"
+                                            >
+                                                {networkName}
+                                            </Typography> 
+                                        }
+                                    />
                                 </Box>
-                                
-                                <Chip 
-                                    size='small' 
-                                    sx={{bgcolor: "#a1afffff", p:"2px"}}
-                                    label={
-                                        <Typography 
-                                            variant='caption' 
-                                            color='#1b3cfbfd' 
-                                            fontSize="10.5px"
-                                            fontWeight="bolder"
-                                        >
-                                            {networkName}
-                                        </Typography> 
-                                    }
-                                />
                             </Box>
-                        </Box>
                         </Tooltip>
 
                             <TextField 
@@ -88,10 +87,10 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar: () => voi
                                     const value = e.target.value;
                                     setContract(value)
                                 }}
-                                
+                                error={!contractAddress}
                             />
 
-                    </>
+                    </Box>
                 }
             </Box>
             <Box display="flex" alignItems="center" gap={2}>

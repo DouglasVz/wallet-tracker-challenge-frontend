@@ -30,7 +30,6 @@ const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 	const getWalletNetwork = async () => {
 		if (window.ethereum) {
 			const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-			console.log(chainId)
 			return getNetworkName(chainId);
 		}
 		return null;
@@ -100,10 +99,9 @@ const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 		};
 		fetchData();
 		connectWallet();
-		const contractAddr = localStorage.getItem("contract");
-		if (contractAddr) {
-			onSetContractAddress(contractAddr)
-		}
+		const cachedContractAddr = localStorage.getItem("contract");
+		const contractAddr = cachedContractAddr ? cachedContractAddr : process.env.NEXT_PUBLIC_ERC20_TOKEN_ADDRESS || ''
+		onSetContractAddress(contractAddr)
     	// Listen for Metamask account changes
     	if (window.ethereum) {
       

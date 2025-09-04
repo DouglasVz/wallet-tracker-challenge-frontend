@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { Box, Typography, Grid, Paper, Stack, TextField } from '@mui/material';
 import { apiRequest } from '@/api/apiRequest';
 import useWallet from '@/hooks/useWallet';
-import dynamic from 'next/dynamic';
-
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,10 +17,6 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-const Line = dynamic(() => import('react-chartjs-2').then(mod => mod.Line), {
-  ssr: false,
-});
-
 export default function PortfolioSummary() {
     const [summary, setSummary] = useState({
         totalValue: '0',
@@ -31,6 +26,7 @@ export default function PortfolioSummary() {
     const [ethPrice, setEthPrice] = useState(0.00)
     const {walletAddress, networkName, contractAddress} = useWallet();
     const [ethHistory, setEthHistory] = useState([]);
+    const [alert, setAlert] = useState<null | string>(null);
 
     async function getEthHistory() {
     try {
@@ -76,6 +72,7 @@ export default function PortfolioSummary() {
             );
             const data = await response.json();
             const ethPrice = data.ethereum.usd;
+            
             setEthPrice(ethPrice)
             return ethPrice;
         } catch (error) {
@@ -86,7 +83,10 @@ export default function PortfolioSummary() {
     }
 
     useEffect(() => {
-        if (!walletAddress || !contractAddress) return;
+        if (!walletAddress || !contractAddress) {
+            setAlert('Contract and Wallet Address are required to navigato on this app.')
+            return
+        }
         const fetchData = async () => {
         const walletsTransactions = await apiRequest('GET', `/portfolio/wallets/${walletAddress?.id}/transactions?contract_address=${contractAddress}`);
         const Balance = await apiRequest('GET', `/portfolio/wallets/${walletAddress?.id}/balance?contract_address=${contractAddress}`);
@@ -97,7 +97,6 @@ export default function PortfolioSummary() {
         
         setSummary({ totalValue, walletCount });
         };
-
         fetchData();
         getEthPrice();
         getEthHistory();
