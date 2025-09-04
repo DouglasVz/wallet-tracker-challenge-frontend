@@ -65,7 +65,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 open={isNotLoggedMeta}
             >
                 <DialogContent>
-                    <strong>MetaMask</strong> is installed but no account is connected. Please unlock your wallet.
+                    Ensure <strong>MetaMask</strong> is installed and connected to your account.
                 </DialogContent>
             </Dialog>
         </Box>
