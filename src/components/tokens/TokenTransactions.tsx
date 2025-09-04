@@ -19,10 +19,8 @@ export default function TokenTransactions() {
 			const res = await apiRequest('GET', `/portfolio/wallets/${walletAddress?.id}/transactions?contract_address=${contractAddress}`);
 
 			if (!res.error && Array.isArray(res.data) && res.data.length > 0) {
-				const formatted = res.data.map((tx: any, index: number) => ({
-				...tx,
-				}));
-				setRows(formatted);
+				
+				setRows(res.data);
 			}else {
 				setRows([])
 			}
@@ -38,11 +36,30 @@ export default function TokenTransactions() {
 		{ field: 'to_address', headerName: 'To', flex: 2 },
 		{ field: 'amount', headerName: 'Amount', flex: 1, align: "right" },
 		{ field: 'direction', headerName: 'Direction', flex: 1 },
-		{ field: 'created_at', headerName: 'Date', flex: 2, align: "right" },
+		{ field: 'created_at', headerName: 'Date', flex: 2, align: "right",
+            valueFormatter: (value) => {
+                
+                if (!value) return '';
+
+                const date = new Date(value);
+
+                const pad = (n: number) => n.toString().padStart(2, '0');
+
+                const MM = pad(date.getMonth() + 1); // Months are 0-indexed
+                const DD = pad(date.getDate());
+                const YYYY = date.getFullYear();
+
+                const HH = pad(date.getHours());
+                const mm = pad(date.getMinutes());
+                const ss = pad(date.getSeconds());
+
+                return `${MM}/${DD}/${YYYY} ${HH}:${mm}:${ss}`;
+            },
+        },
 	];
 
 	return (
-		<Box sx={{ height: 500, width: '100%' }}>
+		<Box sx={{ minHeight: 500, width: '100%' }}>
 			{
 				rows.length === 0 &&
 				<Alert severity="info" sx={{mb:2}}>
@@ -52,10 +69,9 @@ export default function TokenTransactions() {
 			<DataGrid
 				rows={rows }
 				columns={columns}
-				pageSizeOptions={[5, 10]}
 				getRowId={row => row.id}
 				initialState={{
-					pagination: { paginationModel: { pageSize: 5, page: 0 } },
+					pagination: { paginationModel: { pageSize: 50, page: 0 } },
 				}}
 				loading={loadingData}
 			/>

@@ -57,7 +57,7 @@ export default function PortfolioSummary() {
         datasets: [
             {
             label: 'Wallet Balance (USDC)',
-            data: [0.0, 0.6, 0.55, 0.7, 0.65, 0.8, 0.0],
+            data: [0.0, 0.6, 0.55, 5, 0.65, 2, parseInt(summary.totalValue)],
             borderColor: '#673ab7',
             fill: false,
             },
