@@ -25,7 +25,7 @@ export default function PortfolioSummary() {
     });
     const [ethPrice, setEthPrice] = useState(0.00)
     const {walletAddress, networkName, contractAddress} = useWallet();
-    const [ethHistory, setEthHistory] = useState([]);
+    const [ethHistory, setEthHistory] = useState<[Number, number][]>([]);
     const [alert, setAlert] = useState<null | string>(null);
 
     async function getEthHistory() {
