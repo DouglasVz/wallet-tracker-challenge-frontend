@@ -1,0 +1,39 @@
+.intro-container {
+    background-color: #ffffff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-logo {
+    width: 100px;
+    height: 100px;
+}
+
+.intro-circle {
+    fill: none;
+    stroke: #4A90E2;
+    stroke-width: 6;
+    stroke-linecap: round;
+    animation: rotate 2s linear infinite;
+    transform-origin: center;
+}
+
+@keyframes rotate {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        transform: rotate(0deg);
+    }
+    50% {
+        stroke-dasharray: 100, 200;
+        stroke-dashoffset: -15px;
+        transform: rotate(180deg);
+    }
+    100% {
+        stroke-dasharray: 100, 200;
+        stroke-dashoffset: -125px;
+        transform: rotate(360deg);
+    }
+}
