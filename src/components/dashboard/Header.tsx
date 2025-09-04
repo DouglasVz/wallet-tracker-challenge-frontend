@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Typography, IconButton, Button, Tooltip, useMediaQuery, Chip, TextField, InputAdornment } from '@mui/material';
+import { Box, Typography, IconButton, Button, Tooltip, useMediaQuery, Chip, TextField, InputAdornment, Snackbar, Alert } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import useAuth from '@/hooks/useAuth';
 import { truncateAddress } from '@/utils/wallets.utils';
@@ -75,7 +75,6 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar: () => voi
                                     sx: {bgcolor: theme => theme.palette.background.default},
                                     endAdornment: <InputAdornment position='end'>
                                         <Button size='small' variant='outlined' onClick={() => {
-                                            if (contract)
                                             onSetContractAddress(contract);
                                         }}>Set</Button>
                                     </InputAdornment>
@@ -93,6 +92,7 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar: () => voi
                     </Box>
                 }
             </Box>
+            
             <Box display="flex" alignItems="center" gap={2}>
                 <Button startIcon={<LogoutIcon />} color='error' variant="outlined" onClick={logout}>
                     Logout

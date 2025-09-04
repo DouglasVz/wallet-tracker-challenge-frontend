@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Box, Dialog, DialogContent, useMediaQuery, Button } from '@mui/material';
+import { Box, Dialog, DialogContent, useMediaQuery, Button, Alert } from '@mui/material';
 import Sidebar from './SideBar';
 import Header from './Header';
 import useWallet from '@/hooks/useWallet';
@@ -12,7 +12,7 @@ import { Logout } from '@mui/icons-material';
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [openConnectionAlert, setOpenConnectionAlert] = useState(false);
-    const {isConnected, unAuthorizedWallet, isNotLoggedMeta} = useWallet()
+    const {isConnected, unAuthorizedWallet, isNotLoggedMeta, contractAddress} = useWallet()
     const {logout} = useAuth()
     const isMobile = useMediaQuery('(max-width:900px)');
 
@@ -32,6 +32,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Box flex={1} display="flex" flexDirection="column">
                 <Header onToggleSidebar={toggleSidebar} />
                 <Box flex={1} p={2} sx={{ml: isMobile ? "0" :"270px", width: isMobile ? "100vw" :"auto", bgcolor:"grey.200"}}  overflow="auto">
+                    {!contractAddress &&
+                        <Box sx={{mb:2}}>
+                            <Alert severity='error'>Please enter a 'Contract Address' to continue.</Alert>
+                        </Box>
+                    }
                     {children}
                 </Box>
             </Box>

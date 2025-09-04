@@ -73,10 +73,9 @@ const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 		localStorage.removeItem('wallet');
 	};
 
-	const onSetContractAddress = (contractAddress: string) => {
-		if (!contractAddress) return false;
+	const onSetContractAddress = (contractAddress: string | null) => {
 		setcontractAddress(contractAddress)
-		localStorage.setItem('contract', contractAddress);
+		localStorage.setItem('contract', contractAddress || '');
 		return true
 	}
 
